@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lerntheke – Soll der Sozialstaat Alex' Klassenfahrt bezahlen?</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --gruen: #1A7A4A; --gruen-hell: #D5F0E0; --gruen-mid: #2A9A5A;
+  --blau: #1A5F8A; --blau-hell: #D5EAF5;
+  --rot: #B03020; --rot-hell: #FAE0DC;
+  --braun: #7B5030; --braun-hell: #F0E8DC;
+  --akzent: #2C3E6B; --akzent-hell: #EEF1F8;
+  --dunkel: #1C1C1E; --grau: #6B6B6B; --grau-hell: #F5F5F5;
+  --border: #E0E0E0; --weiss: #FFFFFF;
+  --bg: #F2F4F8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--dunkel);
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--akzent);
+  color: white;
+  padding: 28px 24px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-family: 'Source Serif 4', serif;
+  font-size: clamp(18px, 4vw, 26px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.hero-sub {
+  font-size: 13px;
+  opacity: 0.75;
+  line-height: 1.5;
+}
+
+/* ── ALEX KARTE ── */
+.alex-card {
+  background: var(--weiss);
+  margin: 16px;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.alex-avatar {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--akzent-hell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+.alex-info { flex: 1; }
+.alex-name {
+  font-family: 'Source Serif 4', serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.alex-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.alex-fact {
+  font-size: 12px;
+  color: var(--grau);
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+}
+.alex-fact span:first-child { flex-shrink: 0; }
+.alex-frage {
+  margin-top: 10px;
+  background: var(--akzent-hell);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  color: var(--akzent);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* ── ANLEITUNG ── */
+.anleitung {
+  margin: 0 16px 8px;
+  font-size: 12.5px;
+  color: var(--grau);
+  text-align: center;
+  line-height: 1.5;
+}
+.anleitung strong { color: var(--dunkel); }
+
+/* ── ROLLEN GRID ── */
+.rollen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+
+.rollen-karte {
+  background: var(--weiss);
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+.rollen-karte:active { transform: scale(0.97); }
+.rollen-karte.aktiv {
+  border-color: var(--role-color);
+  background: var(--role-bg);
+  box-shadow: 0 0 0 3px var(--role-color-light);
+}
+
+.rollen-karte .role-illustration {
+  margin: 0 auto 8px;
+  display: block;
+}
+
+.rollen-karte .role-name {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.rollen-karte .role-beruf {
+  font-size: 10px;
+  color: var(--grau);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.rollen-karte .role-media-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.rollen-karte .role-position-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.badge-pro { background: var(--gruen-hell); color: var(--gruen); }
+.badge-contra { background: var(--rot-hell); color: var(--rot); }
+
+/* ── CONTENT PANEL ── */
+.content-panel {
+  display: none;
+  margin: 0 16px 20px;
+  background: var(--weiss);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  animation: slideDown 0.25s ease;
+}
+.content-panel.aktiv { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-header-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.panel-header-info { flex: 1; }
+.panel-header-name {
+  font-family: 'Source Serif 4', serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.panel-header-beruf {
+  font-size: 11px;
+  color: var(--grau);
+}
+.panel-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--grau-hell);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--grau);
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.panel-close:hover { background: var(--border); }
+
+.panel-body { padding: 16px; }
+
+/* Media Elemente */
+.media-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grau);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.media-label::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--grau);
+}
+
+/* Audio Player */
+.audio-wrapper {
+  background: var(--grau-hell);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.audio-wrapper audio {
+  width: 100%;
+  border-radius: 8px;
+}
+.audio-placeholder {
+  background: var(--akzent-hell);
+  border: 1.5px dashed var(--akzent);
+  border-radius: 10px;
+  padding: 20px 16px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.audio-placeholder .placeholder-icon { font-size: 32px; margin-bottom: 8px; }
+.audio-placeholder p { font-size: 12px; color: var(--akzent); line-height: 1.5; }
+.audio-placeholder code {
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--akzent);
+  border: 1px solid var(--akzent);
+  display: inline-block;
+  margin-top: 6px;
+}
+
+/* Video */
+.video-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+.video-wrapper iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+.video-placeholder {
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 32px 16px;
+  text-align: center;
+  margin-bottom: 14px;
+  color: white;
+}
+.video-placeholder .play-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  font-size: 24px;
+}
+.video-placeholder p { font-size: 12px; opacity: 0.7; line-height: 1.5; }
+.video-placeholder code {
+  background: rgba(255,255,255,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* Text Panel */
+.text-content {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--dunkel);
+  margin-bottom: 14px;
+}
+.text-content p { margin-bottom: 10px; }
+.text-content p:last-child { margin-bottom: 0; }
+.text-content strong { font-weight: 600; color: var(--akzent); }
+
+.zitat-panel {
+  border-left: 3px solid;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+/* Aufgabe Box */
+.aufgabe-box {
+  background: var(--grau-hell);
+  border-radius: 10px;
+  padding: 13px 14px;
+  margin-top: 14px;
+}
+.aufgabe-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grau);
+  margin-bottom: 8px;
+}
+.aufgabe-items { display: flex; flex-direction: column; gap: 8px; }
+.aufgabe-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.aufgabe-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--akzent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Quiz */
+.quiz-box {
+  margin-bottom: 14px;
+}
+.quiz-question {
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  padding: 12px 14px;
+  background: var(--akzent-hell);
+  border-radius: 8px;
+  color: var(--akzent);
+}
+.quiz-options { display: flex; flex-direction: column; gap: 7px; }
+.quiz-option {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.4;
+  background: var(--weiss);
+  text-align: left;
+  width: 100%;
+}
+.quiz-option:hover { border-color: var(--akzent); background: var(--akzent-hell); }
+.quiz-option.richtig { border-color: var(--gruen); background: var(--gruen-hell); color: var(--gruen); }
+.quiz-option.falsch { border-color: var(--rot); background: var(--rot-hell); color: var(--rot); }
+.quiz-feedback {
+  margin-top: 10px;
+  padding: 10px 13px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.richtig { background: var(--gruen-hell); color: var(--gruen); }
+.quiz-feedback.falsch { background: var(--rot-hell); color: var(--rot); }
+
+/* Info kacheln */
+.info-kacheln {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.info-kachel {
+  background: var(--grau-hell);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+.info-kachel-icon { font-size: 22px; margin-bottom: 5px; }
+.info-kachel-text { font-size: 11.5px; line-height: 1.4; color: var(--dunkel); }
+.info-kachel-text strong { display: block; font-size: 12px; margin-bottom: 2px; }
+
+/* ── QR/LINK BEREICH ── */
+.share-section {
+  margin: 0 16px 24px;
+  background: var(--weiss);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.share-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grau);
+  margin-bottom: 12px;
+}
+.qr-placeholder {
+  width: 100px;
+  height: 100px;
+  background: var(--grau-hell);
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grau);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.4;
+  padding: 8px;
+}
+.share-url {
+  background: var(--grau-hell);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--akzent);
+  word-break: break-all;
+  border: 1px solid var(--border);
+}
+.share-hint { font-size: 11px; color: var(--grau); margin-top: 8px; line-height: 1.5; }
+
+/* ── FOOTER ── */
+.footer-bar {
+  background: var(--akzent);
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 12px 16px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.footer-bar strong { color: white; }
+
+/* Scroll indicator */
+.scroll-hint {
+  text-align: center;
+  font-size: 11px;
+  color: var(--grau);
+  margin: -8px 16px 12px;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+/* Responsive desktop */
+@media (min-width: 600px) {
+  .hero { padding: 36px 40px 32px; }
+  .alex-card { margin: 20px 40px; }
+  .rollen-grid { padding: 0 40px 20px; max-width: 700px; margin: 0 auto; }
+  .rollen-grid { grid-template-columns: repeat(4, 1fr); }
+  .content-panel { margin: 0 40px 24px; max-width: 700px; margin-left: auto; margin-right: auto; }
+  .share-section { margin: 0 40px 28px; max-width: 700px; margin-left: auto; margin-right: auto; }
+  .anleitung { margin: 0 40px 12px; }
+  .scroll-hint { margin: -8px 40px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">GPG 8a · Lerntheke</div>
+  <div class="hero-title">Soll der Sozialstaat Alex' Klassenfahrt bezahlen?</div>
+  <div class="hero-sub">Wähle eine Rolle – entdecke ihre Geschichte – bilde deine eigene Meinung.</div>
+</div>
+
+<!-- ALEX KARTE -->
+<div class="alex-card">
+  <div class="alex-avatar">
+    <svg width="38" height="44" viewBox="0 0 38 44" fill="none">
+      <circle cx="19" cy="16" r="13" fill="#F5C9A0"/>
+      <path d="M6 14 Q7 6 19 5 Q31 6 32 14 Q30 8 19 7 Q8 8 6 14Z" fill="#3A2010"/>
+      <ellipse cx="14" cy="16" rx="2.5" ry="2.5" fill="#3A2010"/>
+      <ellipse cx="24" cy="16" rx="2.5" ry="2.5" fill="#3A2010"/>
+      <path d="M15 21 Q19 24 23 21" stroke="#9B6040" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="19" cy="37" rx="14" ry="9" fill="#3A6BC0"/>
+      <path d="M10 29 Q19 34 28 29 L29 37 Q19 42 9 37 Z" fill="#2A5AAA"/>
+    </svg>
+  </div>
+  <div class="alex-info">
+    <div class="alex-name">Alex, 14 Jahre</div>
+    <div class="alex-facts">
+      <div class="alex-fact"><span>👩</span><span>Mutter arbeitet Vollzeit – reicht trotzdem nicht</span></div>
+      <div class="alex-fact"><span>🏠</span><span>Hohe Miete, Vater nicht mehr da</span></div>
+      <div class="alex-fact"><span>✈️</span><span>Klassenfahrt: 150 € – nicht bezahlbar</span></div>
+    </div>
+    <div class="alex-frage">❓ Soll der Sozialstaat einspringen?</div>
+  </div>
+</div>
+
+<!-- ANLEITUNG -->
+<div class="anleitung">
+  <strong>So geht's:</strong> Tippe auf eine Rolle – lies, höre oder schaue dir ihre Geschichte an – notiere die wichtigsten Argumente.
+</div>
+
+<!-- ROLLEN GRID -->
+<div class="rollen-grid">
+
+  <!-- Sandra -->
+  <div class="rollen-karte" id="btn-sandra"
+       style="--role-color: #1A7A4A; --role-bg: #F0FAF5; --role-color-light: rgba(26,122,74,0.12);"
+       onclick="togglePanel('sandra')">
+    <span class="role-position-badge badge-pro">PRO</span>
+    <svg class="role-illustration" width="70" height="80" viewBox="0 0 70 80" fill="none">
+      <rect width="70" height="80" rx="6" fill="#D5F0E0"/>
+      <circle cx="35" cy="34" r="16" fill="#F5C9A0"/>
+      <path d="M19 32 Q21 20 35 18 Q49 20 51 32 Q49 24 35 22 Q21 24 19 32Z" fill="#6B3A1F"/>
+      <ellipse cx="29" cy="34" rx="2.5" ry="2.5" fill="#3A2010"/>
+      <ellipse cx="41" cy="34" rx="2.5" ry="2.5" fill="#3A2010"/>
+      <path d="M30 41 Q35 44 40 41" stroke="#9B6040" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="35" cy="66" rx="22" ry="17" fill="#1A7A4A"/>
+      <path d="M22 52 Q35 60 48 52 L49 66 Q35 73 21 66Z" fill="#0D5C35"/>
+      <circle cx="26" cy="36" r="1.8" fill="#FFD700" opacity="0.8"/>
+      <circle cx="44" cy="36" r="1.8" fill="#FFD700" opacity="0.8"/>
+    </svg>
+    <div class="role-name">Sandra M.</div>
+    <div class="role-beruf">Alleinerziehende Mutter</div>
+    <span class="role-media-badge" style="background:#E8F5FF; color:#1A5F8A;">🎧 Audio</span>
+  </div>
+
+  <!-- Thomas -->
+  <div class="rollen-karte" id="btn-thomas"
+       style="--role-color: #1A5F8A; --role-bg: #F0F5FA; --role-color-light: rgba(26,95,138,0.12);"
+       onclick="togglePanel('thomas')">
+    <span class="role-position-badge badge-pro">PRO</span>
+    <svg class="role-illustration" width="70" height="80" viewBox="0 0 70 80" fill="none">
+      <rect width="70" height="80" rx="6" fill="#D5EAF5"/>
+      <circle cx="35" cy="30" r="14" fill="#F5C9A0"/>
+      <path d="M21 28 Q23 18 35 16 Q47 18 49 28 Q47 22 35 20 Q23 22 21 28Z" fill="#3A2010"/>
+      <ellipse cx="30" cy="30" rx="2.3" ry="2.5" fill="#3A2010"/>
+      <ellipse cx="40" cy="30" rx="2.3" ry="2.5" fill="#3A2010"/>
+      <rect x="27" y="27" width="7" height="5" rx="2.5" stroke="#5A4030" stroke-width="1" fill="none"/>
+      <rect x="36" y="27" width="7" height="5" rx="2.5" stroke="#5A4030" stroke-width="1" fill="none"/>
+      <line x1="34" y1="29.5" x2="36" y2="29.5" stroke="#5A4030" stroke-width="1"/>
+      <path d="M30 37 Q35 40 40 37" stroke="#9B6040" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <!-- Rollstuhl -->
+      <ellipse cx="35" cy="62" rx="20" ry="14" fill="#2C3E6B"/>
+      <circle cx="22" cy="72" r="8" stroke="#1A5F8A" stroke-width="2.5" fill="none"/>
+      <circle cx="22" cy="72" r="3" fill="#1A5F8A"/>
+      <circle cx="48" cy="72" r="6" stroke="#1A5F8A" stroke-width="2" fill="none"/>
+      <circle cx="48" cy="72" r="2.5" fill="#1A5F8A"/>
+    </svg>
+    <div class="role-name">Thomas K.</div>
+    <div class="role-beruf">Rollstuhlfahrer</div>
+    <span class="role-media-badge" style="background:#FFF3E0; color:#E65100;">🎬 Video</span>
+  </div>
+
+  <!-- Petra -->
+  <div class="rollen-karte" id="btn-petra"
+       style="--role-color: #B03020; --role-bg: #FFF5F4; --role-color-light: rgba(176,48,32,0.1);"
+       onclick="togglePanel('petra')">
+    <span class="role-position-badge badge-contra">CONTRA</span>
+    <svg class="role-illustration" width="70" height="80" viewBox="0 0 70 80" fill="none">
+      <rect width="70" height="80" rx="6" fill="#FAE0DC"/>
+      <circle cx="35" cy="34" r="15" fill="#F5C9A0"/>
+      <path d="M20 32 Q22 22 35 20 Q48 22 50 32 Q48 26 35 24 Q22 26 20 32Z" fill="#2A1A0A"/>
+      <path d="M22 26 Q35 20 48 26 L48 30 Q35 36 22 30 Z" fill="white"/>
+      <rect x="31" y="26" width="8" height="3" rx="1" fill="#B03020" opacity="0.7"/>
+      <rect x="29" y="28" width="12" height="3" rx="1" fill="#B03020" opacity="0.7"/>
+      <ellipse cx="29" cy="34" rx="2.5" ry="2.5" fill="#2A1A0A"/>
+      <ellipse cx="41" cy="34" rx="2.5" ry="2.5" fill="#2A1A0A"/>
+      <path d="M30 41 Q35 43 40 41" stroke="#9B6040" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="35" cy="66" rx="21" ry="16" fill="white"/>
+      <path d="M22 52 Q35 59 48 52 L49 66 Q35 73 21 66Z" fill="#E8E8E8"/>
+      <rect x="31" y="55" width="8" height="16" rx="2" fill="#B03020"/>
+      <rect x="25" y="61" width="20" height="7" rx="2" fill="#B03020"/>
+    </svg>
+    <div class="role-name">Petra W.</div>
+    <div class="role-beruf">Krankenschwester</div>
+    <span class="role-media-badge" style="background:#F5F5F5; color:#555;">📄 Text</span>
+  </div>
+
+  <!-- Karl -->
+  <div class="rollen-karte" id="btn-karl"
+       style="--role-color: #7B5030; --role-bg: #FDF8F3; --role-color-light: rgba(123,80,48,0.1);"
+       onclick="togglePanel('karl')">
+    <span class="role-position-badge badge-contra">CONTRA</span>
+    <svg class="role-illustration" width="70" height="80" viewBox="0 0 70 80" fill="none">
+      <rect width="70" height="80" rx="6" fill="#F0E8DC"/>
+      <circle cx="35" cy="34" r="15" fill="#E8C090"/>
+      <ellipse cx="35" cy="22" rx="13" ry="6" fill="#E8C090"/>
+      <path d="M20 30 Q22 20 35 18 Q48 20 50 30" fill="#A0A0A0"/>
+      <path d="M24 26 Q28 24 32 26" stroke="#808080" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M38 26 Q42 24 46 26" stroke="#808080" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <rect x="26" y="28" width="9" height="6" rx="3" stroke="#5A4030" stroke-width="1.2" fill="none"/>
+      <rect x="35" y="28" width="9" height="6" rx="3" stroke="#5A4030" stroke-width="1.2" fill="none"/>
+      <line x1="35" y1="31" x2="35" y2="31" stroke="#5A4030" stroke-width="1.2"/>
+      <path d="M28 41 Q35 43.5 42 41" stroke="#808080" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M30 44 Q35 46 40 44" stroke="#9B6040" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="35" cy="66" rx="21" ry="16" fill="#5A4030"/>
+      <path d="M22 52 Q35 60 48 52 L49 66 Q35 73 21 66Z" fill="#4A3020"/>
+    </svg>
+    <div class="role-name">Karl H.</div>
+    <div class="role-beruf">Rentner</div>
+    <span class="role-media-badge" style="background:#F3F0FF; color:#5B21B6;">🧩 Quiz</span>
+  </div>
+
+</div>
+
+<div class="scroll-hint" id="scroll-hint" style="display:none;">↓ scroll nach unten</div>
+
+<!-- CONTENT PANELS -->
+
+<!-- Sandra: Audio -->
+<div class="content-panel" id="panel-sandra">
+  <div class="panel-header" style="background:#F0FAF5; border-bottom-color:#C0E8D0;">
+    <div class="panel-header-avatar" style="background:#D5F0E0;">
+      <svg width="26" height="30" viewBox="0 0 26 30" fill="none">
+        <circle cx="13" cy="11" r="9" fill="#F5C9A0"/>
+        <path d="M4 10 Q5 4 13 3 Q21 4 22 10 Q20 6 13 5 Q6 6 4 10Z" fill="#6B3A1F"/>
+        <ellipse cx="13" cy="22" rx="10" ry="8" fill="#1A7A4A"/>
+      </svg>
+    </div>
+    <div class="panel-header-info">
+      <div class="panel-header-name">Sandra M. – Alleinerziehende Mutter</div>
+      <div class="panel-header-beruf">🎧 Sprachnachricht – hör dir ihre Geschichte an</div>
+    </div>
+    <button class="panel-close" onclick="closePanel('sandra')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="media-label">Sprachnachricht von Sandra</div>
+
+    <!-- AUDIO PLACEHOLDER – hier eigene Audiodatei einfügen -->
+    <div class="audio-placeholder">
+      <div class="placeholder-icon">🎙️</div>
+      <p><strong>Hier kommt Sandras Sprachnachricht.</strong><br>
+      Ersetze diesen Bereich mit:<br>
+      <code>&lt;audio controls src="sandra.mp3"&gt;&lt;/audio&gt;</code>
+      </p>
+    </div>
+    <!-- ODER: <div class="audio-wrapper"><audio controls src="audio/sandra.mp3"></audio></div> -->
+
+    <div class="zitat-panel" style="border-left-color:#1A7A4A; background:#F0FAF5; color:#0D5C35;">
+      „Ich arbeite jeden Tag. Trotzdem reicht das Geld nie. Alex soll nicht der Einzige sein, der zu Hause bleibt."
+    </div>
+
+    <div class="info-kacheln">
+      <div class="info-kachel">
+        <div class="info-kachel-icon">💼</div>
+        <div class="info-kachel-text"><strong>Vollzeitjob</strong>reicht nicht für alles</div>
+      </div>
+      <div class="info-kachel">
+        <div class="info-kachel-icon">🏠</div>
+        <div class="info-kachel-text"><strong>Hohe Miete</strong>kein Spielraum</div>
+      </div>
+      <div class="info-kachel">
+        <div class="info-kachel-icon">👦</div>
+        <div class="info-kachel-text"><strong>Kein Vater</strong>kein Unterhalt</div>
+      </div>
+      <div class="info-kachel">
+        <div class="info-kachel-icon">✅</div>
+        <div class="info-kachel-text"><strong>Zahlt Steuern</strong>verdient Hilfe</div>
+      </div>
+    </div>
+
+    <div class="aufgabe-box">
+      <div class="aufgabe-title">Deine Aufgabe</div>
+      <div class="aufgabe-items">
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">1</div>
+          <span>Schreibe Sandras wichtigstes Argument auf dein Arbeitsblatt.</span>
+        </div>
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">2</div>
+          <span>Markiere: Bist du nach dieser Geschichte dafür oder dagegen?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Thomas: Video -->
+<div class="content-panel" id="panel-thomas">
+  <div class="panel-header" style="background:#F0F5FA; border-bottom-color:#C0D5E8;">
+    <div class="panel-header-avatar" style="background:#D5EAF5;">
+      <svg width="26" height="30" viewBox="0 0 26 30" fill="none">
+        <circle cx="13" cy="10" r="9" fill="#F5C9A0"/>
+        <path d="M4 9 Q5 3 13 2 Q21 3 22 9 Q20 5 13 4 Q6 5 4 9Z" fill="#3A2010"/>
+        <rect x="9" y="7" width="6" height="5" rx="2" stroke="#5A4030" stroke-width="0.8" fill="none"/>
+        <circle cx="9" cy="26" r="5" stroke="#1A5F8A" stroke-width="1.5" fill="none"/>
+        <circle cx="18" cy="26" r="4" stroke="#1A5F8A" stroke-width="1.5" fill="none"/>
+        <ellipse cx="13" cy="20" rx="8" ry="5" fill="#2C3E6B"/>
+      </svg>
+    </div>
+    <div class="panel-header-info">
+      <div class="panel-header-name">Thomas K. – Rollstuhlfahrer</div>
+      <div class="panel-header-beruf">🎬 Video – Thomas erklärt den Sozialstaat</div>
+    </div>
+    <button class="panel-close" onclick="closePanel('thomas')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="media-label">Video – Was ist der Sozialstaat?</div>
+
+    <!-- VIDEO: Erklärvideo Sozialstaat (öffentlich verfügbar) -->
+    <div class="video-wrapper">
+      <iframe
+        src="https://www.youtube.com/embed/3DqOCJCJCXM"
+        title="Was ist der Sozialstaat?"
+        allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+      </iframe>
+    </div>
+    <!-- Falls du ein eigenes Video einbetten möchtest: src="dein-video.mp4" als <video> Tag -->
+
+    <div class="zitat-panel" style="border-left-color:#1A5F8A; background:#F0F5FA; color:#0D3A5C;">
+      „Der Staat bezahlt meinen Rollstuhl. Wenn er mir hilft – warum dann nicht Alex?"
+    </div>
+
+    <div class="text-content">
+      <p>Thomas sitzt im Rollstuhl. Ohne staatliche Hilfe könnte er nicht am Leben teilnehmen. Der Sozialstaat ist für ihn nicht nur eine Idee – er <strong>lebt</strong> davon täglich.</p>
+      <p>Thomas Argument: Wer in das System einzahlt, darf auch Hilfe erwarten. Das gilt für ihn – und das gilt für Alex.</p>
+    </div>
+
+    <div class="aufgabe-box">
+      <div class="aufgabe-title">Deine Aufgabe</div>
+      <div class="aufgabe-items">
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">1</div>
+          <span>Schau das Video und schreibe: Was ist der Sozialstaat in einem Satz?</span>
+        </div>
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">2</div>
+          <span>Notiere Thomas' stärkstes Argument auf deinem Arbeitsblatt.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Petra: Text -->
+<div class="content-panel" id="panel-petra">
+  <div class="panel-header" style="background:#FFF5F4; border-bottom-color:#F0C0B8;">
+    <div class="panel-header-avatar" style="background:#FAE0DC;">
+      <svg width="26" height="30" viewBox="0 0 26 30" fill="none">
+        <circle cx="13" cy="10" r="9" fill="#F5C9A0"/>
+        <path d="M4 9 Q5 3 13 2 Q21 3 22 9 Q20 5 13 4 Q6 5 4 9Z" fill="#2A1A0A"/>
+        <path d="M6 7 Q13 4 20 7 L20 10 Q13 13 6 10 Z" fill="white"/>
+        <rect x="10" y="7" width="6" height="2.5" rx="0.8" fill="#B03020" opacity="0.7"/>
+        <rect x="8" y="8.5" width="10" height="2.5" rx="0.8" fill="#B03020" opacity="0.7"/>
+        <ellipse cx="13" cy="22" rx="10" ry="8" fill="white"/>
+        <rect x="10" y="17" width="6" height="10" rx="1.5" fill="#B03020"/>
+        <rect x="7" y="20" width="12" height="5" rx="1.5" fill="#B03020"/>
+      </svg>
+    </div>
+    <div class="panel-header-info">
+      <div class="panel-header-name">Petra W. – Krankenschwester</div>
+      <div class="panel-header-beruf">📄 Text – lies Petras Meinung</div>
+    </div>
+    <button class="panel-close" onclick="closePanel('petra')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="media-label">Petras Standpunkt</div>
+
+    <div class="zitat-panel" style="border-left-color:#B03020; background:#FFF5F4; color:#7A1A10;">
+      „Bei uns im Krankenhaus fehlt Personal und Geld jeden Tag. Das Geld wird dort dringender gebraucht."
+    </div>
+
+    <div class="text-content">
+      <p>Mein Name ist Petra. Ich arbeite seit 15 Jahren als Krankenschwester. <strong>Jeden Tag sehe ich, wie wenig Geld im Gesundheitssystem steckt.</strong> Auf meiner Station fehlen Mitarbeiter. Wir arbeiten am Limit. Patienten warten zu lange.</p>
+
+      <p>Ich verstehe, dass Alex' Familie wenig Geld hat. Das ist traurig. Aber eine Klassenfahrt ist keine lebensnotwendige Hilfe. Es gibt Menschen, die wirklich dringend Unterstützung brauchen – kranke Menschen, alte Menschen, Menschen in echter Not.</p>
+
+      <p><strong>Der Staat hat nicht unendlich viel Geld. Irgendwo muss eine Grenze sein.</strong> Zuerst sollen die wirklich wichtigen Dinge bezahlt werden. Eine Klassenfahrt gehört meiner Meinung nach nicht dazu.</p>
+    </div>
+
+    <div class="info-kacheln">
+      <div class="info-kachel">
+        <div class="info-kachel-icon">🏥</div>
+        <div class="info-kachel-text"><strong>Krankenhaus</strong>braucht mehr Geld</div>
+      </div>
+      <div class="info-kachel">
+        <div class="info-kachel-icon">⚖️</div>
+        <div class="info-kachel-text"><strong>Prioritäten</strong>Wichtiges zuerst</div>
+      </div>
+    </div>
+
+    <div class="aufgabe-box">
+      <div class="aufgabe-title">Deine Aufgabe</div>
+      <div class="aufgabe-items">
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">1</div>
+          <span>Lies den Text. Unterstreiche das stärkste Argument von Petra.</span>
+        </div>
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">2</div>
+          <span>Schreibe auf dein Arbeitsblatt: Warum sagt Petra CONTRA?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Karl: Quiz -->
+<div class="content-panel" id="panel-karl">
+  <div class="panel-header" style="background:#FDF8F3; border-bottom-color:#E8D5C0;">
+    <div class="panel-header-avatar" style="background:#F0E8DC;">
+      <svg width="26" height="30" viewBox="0 0 26 30" fill="none">
+        <circle cx="13" cy="10" r="9" fill="#E8C090"/>
+        <ellipse cx="13" cy="6" rx="8" ry="4" fill="#E8C090"/>
+        <path d="M4 9 Q5 4 13 3 Q21 4 22 9" fill="#A0A0A0"/>
+        <rect x="8" y="7" width="5" height="4" rx="2" stroke="#5A4030" stroke-width="0.9" fill="none"/>
+        <rect x="13" y="7" width="5" height="4" rx="2" stroke="#5A4030" stroke-width="0.9" fill="none"/>
+        <path d="M10 14 Q13 16 16 14" stroke="#808080" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="13" cy="22" rx="10" ry="8" fill="#5A4030"/>
+      </svg>
+    </div>
+    <div class="panel-header-info">
+      <div class="panel-header-name">Karl H. – Rentner</div>
+      <div class="panel-header-beruf">🧩 Mini-Quiz – teste dein Wissen</div>
+    </div>
+    <button class="panel-close" onclick="closePanel('karl')">✕</button>
+  </div>
+  <div class="panel-body">
+
+    <div class="zitat-panel" style="border-left-color:#7B5030; background:#FDF8F3; color:#4A2A10;">
+      „Ich habe 40 Jahre eingezahlt und bekomme wenig Rente. Zuerst die Menschen unterstützen, die wirklich in Not sind."
+    </div>
+
+    <div class="text-content">
+      <p>Karl hat 40 Jahre Sozialabgaben gezahlt. Jetzt bekommt er seine Rente – aber sie reicht kaum. Er findet: Das Geld soll dort hinkommen, wo es am meisten gebraucht wird.</p>
+    </div>
+
+    <div class="media-label">Quiz – Was weißt du über den Sozialstaat?</div>
+
+    <!-- Frage 1 -->
+    <div class="quiz-box" id="quiz1">
+      <div class="quiz-question">💬 Wer zahlt Sozialabgaben in Deutschland?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz('quiz1', this, false)">Nur Beamte und Rentner</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz1', this, true)">Alle Arbeitnehmer – jeden Monat vom Lohn</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz1', this, false)">Nur Menschen die Hilfe bekommen</button>
+      </div>
+      <div class="quiz-feedback richtig" id="quiz1-richtig">✅ Genau! Alle Arbeitnehmer zahlen einen Teil ihres Lohns als Sozialabgabe. Das Geld fließt in Kranken-, Renten-, Pflege- und Arbeitslosenversicherung.</div>
+      <div class="quiz-feedback falsch" id="quiz1-falsch">❌ Nicht ganz. <strong>Alle Arbeitnehmer</strong> zahlen Sozialabgaben – jeden Monat automatisch vom Lohn.</div>
+    </div>
+
+    <!-- Frage 2 -->
+    <div class="quiz-box" id="quiz2">
+      <div class="quiz-question">💬 Was ist der Generationenvertrag?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz('quiz2', this, false)">Ein Vertrag zwischen Eltern und Kindern</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz2', this, false)">Ein Gesetz das alle 30 Jahre erneuert wird</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz2', this, true)">Junge zahlen Rente für Alte – weil Alte früher für Junge gezahlt haben</button>
+      </div>
+      <div class="quiz-feedback richtig" id="quiz2-richtig">✅ Richtig! Junge Arbeitnehmer zahlen heute die Renten der Älteren – und bekommen später selbst Rente von der nächsten Generation.</div>
+      <div class="quiz-feedback falsch" id="quiz2-falsch">❌ Das stimmt nicht ganz. Der Generationenvertrag bedeutet: <strong>Junge zahlen heute</strong> für die Renten der Alten – weil die Alten früher für andere gezahlt haben.</div>
+    </div>
+
+    <!-- Frage 3 -->
+    <div class="quiz-box" id="quiz3">
+      <div class="quiz-question">💬 Was bedeutet „Teilhabe" im Sozialstaat?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz('quiz3', this, false)">Dass alle gleich viel verdienen</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz3', this, true)">Dass jeder am gesellschaftlichen Leben mitmachen kann – Schule, Sport, Klassenfahrt</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz3', this, false)">Dass der Staat alles bezahlt</button>
+      </div>
+      <div class="quiz-feedback richtig" id="quiz3-richtig">✅ Super! Teilhabe bedeutet: Kein Mensch soll ausgeschlossen werden – auch nicht wegen fehlenden Geldes.</div>
+      <div class="quiz-feedback falsch" id="quiz3-falsch">❌ Nicht ganz. <strong>Teilhabe</strong> bedeutet: Jeder soll am gesellschaftlichen Leben mitmachen können – egal wie viel Geld die Familie hat.</div>
+    </div>
+
+    <div class="aufgabe-box">
+      <div class="aufgabe-title">Karls Argument aufschreiben</div>
+      <div class="aufgabe-items">
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">1</div>
+          <span>Schreibe auf dein Arbeitsblatt: Warum sagt Karl CONTRA?</span>
+        </div>
+        <div class="aufgabe-item">
+          <div class="aufgabe-num">2</div>
+          <span>Findest du sein Argument überzeugend? Warum (nicht)?</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SHARE / QR -->
+<div class="share-section">
+  <div class="share-title">Diese Seite teilen</div>
+  <div class="qr-placeholder" id="qr-code">
+    QR-Code<br>wird generiert...
+  </div>
+  <div class="share-url" id="share-url">Lade die Seite, um den Link zu sehen</div>
+  <div class="share-hint">📱 Schülerinnen und Schüler können den QR-Code mit dem Tablet oder Smartphone scannen und die Lerntheke direkt aufrufen.</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <strong>Lerntheke Sozialstaat</strong> · GPG 8a · BUV<br>
+  Erstellt für den Unterricht – alle Inhalte sind didaktisch aufbereitet.
+</div>
+
+<script>
+// Panels togglen
+function togglePanel(role) {
+  const panel = document.getElementById('panel-' + role);
+  const btn = document.getElementById('btn-' + role);
+  const isOpen = panel.classList.contains('aktiv');
+
+  // Alle schließen
+  document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('aktiv'));
+  document.querySelectorAll('.rollen-karte').forEach(b => b.classList.remove('aktiv'));
+  document.getElementById('scroll-hint').style.display = 'none';
+
+  if (!isOpen) {
+    panel.classList.add('aktiv');
+    btn.classList.add('aktiv');
+    document.getElementById('scroll-hint').style.display = 'block';
+    // Sanft scrollen
+    setTimeout(() => {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+}
+
+function closePanel(role) {
+  document.getElementById('panel-' + role).classList.remove('aktiv');
+  document.getElementById('btn-' + role).classList.remove('aktiv');
+  document.getElementById('scroll-hint').style.display = 'none';
+}
+
+// Quiz Logik
+function checkQuiz(quizId, btn, isCorrect) {
+  const box = document.getElementById(quizId);
+  // Bereits beantwortet?
+  if (box.querySelector('.richtig') || box.querySelector('.falsch')) {
+    if (box.dataset.answered) return;
+  }
+
+  // Alle Buttons dieser Frage deaktivieren
+  box.querySelectorAll('.quiz-option').forEach(b => {
+    b.style.pointerEvents = 'none';
+    b.style.opacity = '0.6';
+  });
+  box.dataset.answered = 'true';
+
+  btn.style.opacity = '1';
+  if (isCorrect) {
+    btn.classList.add('richtig');
+    const fb = document.getElementById(quizId + '-richtig');
+    fb.classList.add('show');
+  } else {
+    btn.classList.add('falsch');
+    const fb = document.getElementById(quizId + '-falsch');
+    fb.classList.add('show');
+  }
+}
+
+// QR-Code & URL generieren
+window.addEventListener('load', function() {
+  const url = window.location.href;
+  document.getElementById('share-url').textContent = url;
+
+  // QR via Google Charts API
+  const qrImg = document.createElement('img');
+  qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + encodeURIComponent(url);
+  qrImg.alt = 'QR-Code';
+  qrImg.style.width = '100px';
+  qrImg.style.height = '100px';
+  qrImg.style.borderRadius = '6px';
+  const qrDiv = document.getElementById('qr-code');
+  qrDiv.innerHTML = '';
+  qrDiv.appendChild(qrImg);
+  qrDiv.style.background = 'transparent';
+  qrDiv.style.border = 'none';
+});
+</script>
+</body>
+</html>
